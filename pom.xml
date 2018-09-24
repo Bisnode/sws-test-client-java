@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+   <modelVersion>4.0.0</modelVersion>
+
+   <groupId>com.bisnode.external</groupId>
+   <artifactId>sws-test-client-java</artifactId>
+   <version>1.0-SNAPSHOT</version>
+
+   <parent>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-parent</artifactId>
+      <version>2.0.4.RELEASE</version>
+   </parent>
+
+   <properties>
+      <java.version>1.8</java.version>
+      <cxf.version>3.2.6</cxf.version>
+      <spring.boot.version>3.2.6</spring.boot.version>
+   </properties>
+
+   <dependencies>
+      <dependency>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-starter</artifactId>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-frontend-jaxws</artifactId>
+         <version>${cxf.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-transports-http</artifactId>
+         <version>${cxf.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>org.apache.cxf</groupId>
+         <artifactId>cxf-rt-transports-http-jetty</artifactId>
+         <version>${cxf.version}</version>
+      </dependency>
+   </dependencies>
+
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+         </plugin>
+         <plugin>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-codegen-plugin</artifactId>
+            <version>${cxf.version}</version>
+            <executions>
+               <execution>
+                  <id>generate-sources-person</id>
+                  <phase>generate-sources</phase>
+                  <configuration>
+                     <sourceRoot>${project.build.sourceDirectory}</sourceRoot>
+                     <wsdlOptions>
+                        <wsdlOption>
+                           <wsdl>https://test.dbonline.no/webservices/wsdl/v2/Personinfo.wsdl</wsdl>
+                           <extraargs>
+                              <!-- Specifies package name to use for the generated code. -->
+                              <extraarg>-p</extraarg>
+                              <extraarg>com.bisnode.services.sws.generated.person</extraarg>
+                              <!-- Automatically resolve naming conflicts without requiring the use of binding customizations. -->
+                              <extraarg>-autoNameResolution</extraarg>
+                              <!-- Adds the @Generated annotation to classes generated. -->
+                              <extraarg>-mark-generated</extraarg>
+                              <!-- Displays comments during the code generation process. -->
+                              <extraarg>-verbose</extraarg>
+                              <!-- Specifies JAXWS or JAXB binding files or XMLBeans context files. -->
+                              <extraarg>-b</extraarg>
+                              <extraarg>${basedir}/src/main/resources/javabindings.xml</extraarg>
+                           </extraargs>
+                        </wsdlOption>
+                     </wsdlOptions>
+                  </configuration>
+                  <goals>
+                     <goal>wsdl2java</goal>
+                  </goals>
+               </execution>
+               <execution>
+                  <id>generate-sources-company</id>
+                  <phase>generate-sources</phase>
+                  <configuration>
+                     <sourceRoot>${project.build.sourceDirectory}</sourceRoot>
+                     <wsdlOptions>
+                        <wsdlOption>
+                           <wsdl>https://test.dbonline.no/webservices/wsdl/v2/ForetakInfo.wsdl</wsdl>
+                           <extraargs>
+                              <!-- Specifies package name to use for the generated code. -->
+                              <extraarg>-p</extraarg>
+                              <extraarg>com.bisnode.services.sws.generated.company</extraarg>
+                              <!-- Automatically resolve naming conflicts without requiring the use of binding customizations. -->
+                              <extraarg>-autoNameResolution</extraarg>
+                              <!-- Adds the @Generated annotation to classes generated. -->
+                              <extraarg>-mark-generated</extraarg>
+                              <!-- Displays comments during the code generation process. -->
+                              <extraarg>-verbose</extraarg>
+                              <!-- Specifies JAXWS or JAXB binding files or XMLBeans context files. -->
+                              <extraarg>-b</extraarg>
+                              <extraarg>${basedir}/src/main/resources/javabindings.xml</extraarg>
+                           </extraargs>
+                        </wsdlOption>
+                     </wsdlOptions>
+                  </configuration>
+                  <goals>
+                     <goal>wsdl2java</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
+</project>
